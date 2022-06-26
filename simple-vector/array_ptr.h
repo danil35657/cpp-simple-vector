@@ -24,13 +24,19 @@ public:
 
     // Запрещаем копирование
     ArrayPtr(const ArrayPtr&) = delete;
-
-    ~ArrayPtr() {
-        delete[] raw_ptr_;
-    }
+    
+    // Разрешаем перемещение
+    ArrayPtr(ArrayPtr&& other) : raw_ptr_(std::exchange(other.raw_ptr_, nullptr)) {};
 
     // Запрещаем присваивание
     ArrayPtr& operator=(const ArrayPtr&) = delete;
+    
+    // Разрешаем присваивание с перемещением
+    ArrayPtr& operator=(ArrayPtr&&) = default;
+    
+    ~ArrayPtr() {
+        delete[] raw_ptr_;
+    }
 
     // Прекращает владением массивом в памяти, возвращает значение адреса массива
     // После вызова метода указатель на массив должен обнулиться
@@ -62,9 +68,7 @@ public:
 
     // Обменивается значениям указателя на массив с объектом other
     void swap(ArrayPtr& other) noexcept {
-        Type* temp = other.raw_ptr_;
-        other.raw_ptr_ = raw_ptr_;
-        raw_ptr_ = temp;
+        std::swap(raw_ptr_, other.raw_ptr_);
     }
 
 private:
