@@ -32,7 +32,10 @@ public:
     ArrayPtr& operator=(const ArrayPtr&) = delete;
     
     // Разрешаем присваивание с перемещением
-    ArrayPtr& operator=(ArrayPtr&&) = default;
+    ArrayPtr& operator=(ArrayPtr&& other) {
+		raw_ptr_(std::exchange(other.raw_ptr_, nullptr));
+		return *this;
+	}
     
     ~ArrayPtr() {
         delete[] raw_ptr_;
