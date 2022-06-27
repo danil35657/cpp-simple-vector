@@ -33,9 +33,11 @@ public:
     
     // Разрешаем присваивание с перемещением
     ArrayPtr& operator=(ArrayPtr&& other) {
-		raw_ptr_(std::exchange(other.raw_ptr_, nullptr));
-		return *this;
-	}
+        if (this != &other) {
+            std::swap(raw_ptr_, other.raw_ptr_);
+        }
+        return *this;
+    }
     
     ~ArrayPtr() {
         delete[] raw_ptr_;

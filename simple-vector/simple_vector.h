@@ -132,7 +132,7 @@ public:
     // Если перед вставкой значения вектор был заполнен полностью,
     // вместимость вектора должна увеличиться вдвое, а для вектора вместимостью 0 стать равной 1
     Iterator Insert(ConstIterator pos, const Type& value) {
-		assert(pos >= begin() && pos <= end());
+        assert(pos >= begin() && pos <= end());
         size_t new_item = pos - items_.Get();
         if (size_ < capacity_) {
             std::copy_backward(&items_[new_item], &items_[size_], &items_[size_ + 1]);
@@ -152,7 +152,7 @@ public:
     }
     
     Iterator Insert(ConstIterator pos, Type&& value) {
-		assert(pos >= begin() && pos <= end());
+        assert(pos >= begin() && pos <= end());
         size_t new_item = pos - items_.Get();
         if (size_ < capacity_) {
             for (size_t i = size_; i > new_item; --i) {
@@ -181,13 +181,13 @@ public:
     // "Удаляет" последний элемент вектора. Вектор не должен быть пустым
     void PopBack() noexcept {
         if(size_) {
-			--size_;
+            --size_;
         }
     }
 
     // Удаляет элемент вектора в указанной позиции
     Iterator Erase(ConstIterator pos) {
-		assert(pos >= begin() && pos <= end());
+        assert(pos >= begin() && pos <= end());
         size_t next = pos - items_.Get();
         for (size_t i = next; i < size_ - 1; ++i) {
             items_[i] = std::move(items_[i + 1]);
@@ -222,13 +222,13 @@ public:
 
     // Возвращает ссылку на элемент с индексом index
     Type& operator[](size_t index) noexcept {
-		assert(index < size_);
+        assert(index < size_);
         return items_[index];
     }
 
     // Возвращает константную ссылку на элемент с индексом index
     const Type& operator[](size_t index) const noexcept {
-		assert(index < size_);
+        assert(index < size_);
         return items_[index];
     }
 
